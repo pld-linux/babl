@@ -1,5 +1,5 @@
-#
 Summary:	Library for pixel-format agnosticism
+Summary(pl.UTF-8):	Biblioteka niezależności od formatu piksela
 Name:		babl
 Version:	0.0.14
 Release:	1
@@ -20,14 +20,17 @@ provides conversions between the myriad of buffer types images can be
 stored in. Babl doesn't only help with existing pixel formats, but
 also facilitates creation of new and uncommon ones.
 
+%description -l pl.UTF-8
+Babl to biblioteka dynamicznych przekształceń między dowolnymi
+formatami pikseli. Udostępnia konwersje między wieloma różnymi typami
+buforów obrazów. Babl nie tylko pomaga przy istniejących formatach
+pikseli, ale także ułatwia tworzenie nowych i niestandardowych.
+
 %package devel
 Summary:	Header files for babl library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki babl
 Group:		Development/Libraries
-# if base package contains shared library for which these headers are
-#Requires:	%{name} = %{version}-%{release}
-# if -libs package contains shared library for which these headers are
-#Requires:	%{name}-libs = %{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 
 %description devel
 Header files for babl library.
