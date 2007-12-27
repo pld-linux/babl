@@ -10,7 +10,6 @@ diff -ur babl-0.0.14-o/babl/Makefile.am babl-0.0.14/babl/Makefile.am
  
 +EXTRA_LTLIBRARIES =
 +
- libbabl_@BABL_API_VERSION@_la_LDFLAGS= \
- 	${no_undefined}                \
+ libbabl_@BABL_API_VERSION@_la_LDFLAGS= 		\
+ 	${no_undefined} ${DL_LIB} $(MATH_LIB)	\
  	-version-info $(BABL_LIBRARY_VERSION)
-Only in babl-0.0.14/babl: Makefile.am~
