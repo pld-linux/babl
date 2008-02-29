@@ -1,12 +1,12 @@
 Summary:	Library for pixel-format agnosticism
 Summary(pl.UTF-8):	Biblioteka niezależności od formatu piksela
 Name:		babl
-Version:	0.0.16
+Version:	0.0.20
 Release:	1
 License:	LGPL v2+
 Group:		Libraries
 Source0:	ftp://ftp.gtk.org/pub/babl/0.0/%{name}-%{version}.tar.bz2
-# Source0-md5:	1f69d2b59bf269bd5270c14100803318
+# Source0-md5:	dbf67b333b0812dfe0d0f057864b0f9a
 Patch0:		%{name}-as-needed.patch
 URL:		http://www.gegl.org/babl/
 BuildRequires:	autoconf >= 2.54
@@ -80,6 +80,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README
 %attr(755,root,root) %{_libdir}/libbabl-0.0.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libbabl-0.0.so.0
 %dir %{_libdir}/babl-0.0
 %attr(755,root,root) %{_libdir}/babl-0.0/*.so
 
