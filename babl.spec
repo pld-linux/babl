@@ -5,7 +5,7 @@ Version:	0.1.0
 Release:	1
 License:	LGPL v3+
 Group:		Libraries
-Source0:	ftp://ftp.gtk.org/pub/babl/0.0/%{name}-%{version}.tar.bz2
+Source0:	ftp://ftp.gtk.org/pub/babl/0.1/%{name}-%{version}.tar.bz2
 # Source0-md5:	197133d84fe120ee66c8137dff1696e6
 Patch0:		%{name}-as-needed.patch
 Patch1:		%{name}-build.patch
