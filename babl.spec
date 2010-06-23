@@ -1,14 +1,13 @@
 Summary:	Library for pixel-format agnosticism
 Summary(pl.UTF-8):	Biblioteka niezależności od formatu piksela
 Name:		babl
-Version:	0.1.0
+Version:	0.1.2
 Release:	1
 License:	LGPL v3+
 Group:		Libraries
 Source0:	ftp://ftp.gtk.org/pub/babl/0.1/%{name}-%{version}.tar.bz2
-# Source0-md5:	197133d84fe120ee66c8137dff1696e6
+# Source0-md5:	8eebd8d78d3173db7af5e3e60b1e03ea
 Patch0:		%{name}-as-needed.patch
-Patch1:		%{name}-build.patch
 URL:		http://www.gegl.org/babl/
 BuildRequires:	autoconf >= 2.54
 BuildRequires:	automake
@@ -54,7 +53,6 @@ Statyczna biblioteka babl.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
 
 %build
 %{__libtoolize}
@@ -81,19 +79,19 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README
-%attr(755,root,root) %{_libdir}/libbabl-0.0.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libbabl-0.0.so.0
-%dir %{_libdir}/babl-0.0
-%attr(755,root,root) %{_libdir}/babl-0.0/*.so*
+%attr(755,root,root) %{_libdir}/libbabl-0.1.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libbabl-0.1.so.0
+%dir %{_libdir}/babl-0.1
+%attr(755,root,root) %{_libdir}/babl-0.1/*.so*
 
 %files devel
 %defattr(644,root,root,755)
 %doc docs/{*.html,*.css}
-%attr(755,root,root) %{_libdir}/libbabl-0.0.so
-%{_libdir}/libbabl-0.0.la
-%{_includedir}/babl-0.0
+%attr(755,root,root) %{_libdir}/libbabl-0.1.so
+%{_libdir}/libbabl-0.1.la
+%{_includedir}/babl-0.1
 %{_pkgconfigdir}/babl.pc
 
 %files static
 %defattr(644,root,root,755)
-%{_libdir}/libbabl-0.0.a
+%{_libdir}/libbabl-0.1.a
