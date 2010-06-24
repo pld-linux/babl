@@ -61,6 +61,7 @@ Statyczna biblioteka babl.
 %{__autoheader}
 %{__automake}
 %configure \
+	--disable-silent-rules \
 	--enable-static
 %{__make}
 
@@ -69,6 +70,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
+
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/babl-0.1/*.{la,a}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
