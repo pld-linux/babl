@@ -11,6 +11,7 @@ Patch0:		%{name}-as-needed.patch
 URL:		http://www.gegl.org/babl/
 BuildRequires:	autoconf >= 2.54
 BuildRequires:	automake
+BuildRequires:	gobject-introspection-devel >= 0.6.8
 BuildRequires:	libtool
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -81,11 +82,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS ChangeLog NEWS README
+%doc AUTHORS ChangeLog NEWS README TODO
 %attr(755,root,root) %{_libdir}/libbabl-0.1.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libbabl-0.1.so.0
 %dir %{_libdir}/babl-0.1
-%attr(755,root,root) %{_libdir}/babl-0.1/*.so*
+%attr(755,root,root) %{_libdir}/babl-0.1/*.so
+%{_libdir}/girepository-1.0/Babl-0.1.typelib
 
 %files devel
 %defattr(644,root,root,755)
@@ -93,6 +95,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libbabl-0.1.so
 %{_libdir}/libbabl-0.1.la
 %{_includedir}/babl-0.1
+%{_datadir}/gir-1.0/Babl-0.1.gir
 %{_pkgconfigdir}/babl.pc
 
 %files static
