@@ -1,18 +1,23 @@
+#
+# Conditional build:
+%bcond_without	vala	# Vala API
+#
 Summary:	Library for pixel-format agnosticism
 Summary(pl.UTF-8):	Biblioteka niezależności od formatu piksela
 Name:		babl
-Version:	0.1.4
+Version:	0.1.6
 Release:	1
 License:	LGPL v3+
 Group:		Libraries
 Source0:	ftp://ftp.gimp.org/pub/babl/0.1/%{name}-%{version}.tar.bz2
-# Source0-md5:	1deaf8188b200b10d98a343a7e712b2b
+# Source0-md5:	dc960981a5ec5330fc1c177be9f59068
 Patch0:		%{name}-as-needed.patch
 URL:		http://www.gegl.org/babl/
 BuildRequires:	autoconf >= 2.54
-BuildRequires:	automake
-BuildRequires:	gobject-introspection-devel >= 0.6.8
-BuildRequires:	libtool
+BuildRequires:	automake >= 1:1.11
+BuildRequires:	gobject-introspection-devel >= 0.10
+BuildRequires:	libtool >= 2:2.2
+%{?with_vala:BuildRequires:	vala}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -50,6 +55,19 @@ Static babl library.
 
 %description static -l pl.UTF-8
 Statyczna biblioteka babl.
+
+%package -n vala-babl
+Summary:	Vala API for babl library
+Summary(pl.UTF-8):	API języka Vala dla biblioteki babl
+Group:		Development/Libraries
+Requires:	%{name}-devel = %{version}-%{release}
+Requires:	vala
+
+%description -n vala-babl
+Vala API for babl library.
+
+%description -n vala-babl -l pl.UTF-8
+API języka Vala dla biblioteki babl.
 
 %prep
 %setup -q
@@ -101,3 +119,9 @@ rm -rf $RPM_BUILD_ROOT
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/libbabl-0.1.a
+
+%if %{with vala}
+%files -n vala-babl
+%defattr(644,root,root,755)
+%{_datadir}/vala/vapi/babl-0.1.vapi
+%endif
