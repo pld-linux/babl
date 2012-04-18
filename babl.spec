@@ -5,16 +5,17 @@
 Summary:	Library for pixel-format agnosticism
 Summary(pl.UTF-8):	Biblioteka niezależności od formatu piksela
 Name:		babl
-Version:	0.1.6
-Release:	1
+Version:	0.1.8
+Release:	0.1
 License:	LGPL v3+
 Group:		Libraries
 Source0:	ftp://ftp.gimp.org/pub/babl/0.1/%{name}-%{version}.tar.bz2
-# Source0-md5:	dc960981a5ec5330fc1c177be9f59068
+# Source0-md5:	483bb9bd8c360669986b24983c2c4df7
 Patch0:		%{name}-as-needed.patch
 URL:		http://www.gegl.org/babl/
 BuildRequires:	autoconf >= 2.54
 BuildRequires:	automake >= 1:1.11
+BuildRequires:	elfutils-devel
 BuildRequires:	gobject-introspection-devel >= 0.10
 BuildRequires:	libtool >= 2:2.2
 %{?with_vala:BuildRequires:	vala}
@@ -74,14 +75,15 @@ API języka Vala dla biblioteki babl.
 %patch0 -p1
 
 %build
-%{__libtoolize}
-%{__aclocal}
-%{__autoconf}
-%{__autoheader}
-%{__automake}
+#%{__libtoolize}
+#%{__aclocal}
+#%{__autoconf}
+#%{__autoheader}
+#%{__automake}
 %configure \
 	--disable-silent-rules \
-	--enable-static
+	--enable-static \
+	%{!?with_vala:--without-vala}
 %{__make}
 
 %install
@@ -105,7 +107,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %ghost %{_libdir}/libbabl-0.1.so.0
 %dir %{_libdir}/babl-0.1
 %attr(755,root,root) %{_libdir}/babl-0.1/*.so
-%{_libdir}/girepository-1.0/Babl-0.1.typelib
+#%{_libdir}/girepository-1.0/Babl-0.1.typelib
 
 %files devel
 %defattr(644,root,root,755)
@@ -113,7 +115,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libbabl-0.1.so
 %{_libdir}/libbabl-0.1.la
 %{_includedir}/babl-0.1
-%{_datadir}/gir-1.0/Babl-0.1.gir
+#%{_datadir}/gir-1.0/Babl-0.1.gir
 %{_pkgconfigdir}/babl.pc
 
 %files static
