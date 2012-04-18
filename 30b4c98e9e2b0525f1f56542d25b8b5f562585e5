@@ -1,0 +1,3 @@
+- fixed auto* regeneration
+- added gir-fix patch from babl git (but it's not enough)
+- added introspection bcond; now builds without it, it seems that g-ir-scanner or annotations are broken
