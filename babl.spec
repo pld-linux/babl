@@ -20,7 +20,6 @@ Patch1:		%{name}-gir-fix.patch
 URL:		http://www.gegl.org/babl/
 BuildRequires:	autoconf >= 2.54
 BuildRequires:	automake >= 1:1.11
-BuildRequires:	elfutils-devel
 %{?with_introspection:BuildRequires:	gobject-introspection-devel >= 0.10}
 BuildRequires:	libtool >= 2:2.2
 %{?with_vala:BuildRequires:	vala}
