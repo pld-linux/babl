@@ -1,7 +1,7 @@
 #
 # Conditional build:
-%bcond_without	introspection	# API introspection
-%bcond_without	vala		# Vala API
+%bcond_with	introspection	# API introspection
+%bcond_with	vala		# Vala API
 #
 %if %{without introspection}
 %undefine	with_vala
@@ -10,7 +10,7 @@ Summary:	Library for pixel-format agnosticism
 Summary(pl.UTF-8):	Biblioteka niezależności od formatu piksela
 Name:		babl
 Version:	0.1.10
-Release:	0.1
+Release:	1
 License:	LGPL v3+
 Group:		Libraries
 Source0:	ftp://ftp.gimp.org/pub/babl/0.1/%{name}-%{version}.tar.bz2
