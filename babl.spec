@@ -13,7 +13,7 @@ Version:	0.1.10
 Release:	1
 License:	LGPL v3+
 Group:		Libraries
-Source0:	ftp://ftp.gimp.org/pub/babl/0.1/%{name}-%{version}.tar.bz2
+Source0:	http://ftp.gimp.org/pub/babl/0.1/%{name}-%{version}.tar.bz2
 # Source0-md5:	9e1542ab5c0b12ea3af076a9a2f02d79
 Patch0:		%{name}-as-needed.patch
 Patch1:		%{name}-gir-fix.patch
