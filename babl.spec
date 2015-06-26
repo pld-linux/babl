@@ -1,28 +1,21 @@
 #
 # Conditional build:
-%bcond_with	introspection	# API introspection
-%bcond_with	vala		# Vala API
+%bcond_without	static_libs	# static library
 #
-%if %{without introspection}
-%undefine	with_vala
-%endif
 Summary:	Library for pixel-format agnosticism
 Summary(pl.UTF-8):	Biblioteka niezależności od formatu piksela
 Name:		babl
-Version:	0.1.10
-Release:	2
+Version:	0.1.12
+Release:	1
 License:	LGPL v3+
 Group:		Libraries
 Source0:	http://ftp.gimp.org/pub/babl/0.1/%{name}-%{version}.tar.bz2
-# Source0-md5:	9e1542ab5c0b12ea3af076a9a2f02d79
+# Source0-md5:	50c8d12cdf5b3991590fa6cba16218a0
 Patch0:		%{name}-as-needed.patch
-Patch1:		%{name}-gir-fix.patch
 URL:		http://www.gegl.org/babl/
 BuildRequires:	autoconf >= 2.54
 BuildRequires:	automake >= 1:1.11
-%{?with_introspection:BuildRequires:	gobject-introspection-devel >= 0.10}
 BuildRequires:	libtool >= 2:2.2
-%{?with_vala:BuildRequires:	vala}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -77,7 +70,6 @@ API języka Vala dla biblioteki babl.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
 
 %build
 %{__libtoolize}
@@ -86,10 +78,8 @@ API języka Vala dla biblioteki babl.
 %{__autoheader}
 %{__automake}
 %configure \
-	%{?with_introspection:--enable-introspection} \
 	--disable-silent-rules \
-	--enable-static \
-	%{!?with_vala:--without-vala}
+	%{?with_static_libs:--enable-static}
 %{__make}
 
 %install
@@ -98,7 +88,11 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/babl-0.1/*.{la,a}
+# dlopened modules
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/babl-0.1/*.la
+%if %{with static_libs}
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/babl-0.1/*.a
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -113,7 +107,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %ghost %{_libdir}/libbabl-0.1.so.0
 %dir %{_libdir}/babl-0.1
 %attr(755,root,root) %{_libdir}/babl-0.1/*.so
-%{?with_introspection:%{_libdir}/girepository-1.0/Babl-0.1.typelib}
 
 %files devel
 %defattr(644,root,root,755)
@@ -121,14 +114,15 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libbabl-0.1.so
 %{_libdir}/libbabl-0.1.la
 %{_includedir}/babl-0.1
-%{?with_introspection:%{_datadir}/gir-1.0/Babl-0.1.gir}
 %{_pkgconfigdir}/babl.pc
 
+%if %{with static_libs}
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/libbabl-0.1.a
+%endif
 
-%if %{with vala}
+%if 0
 %files -n vala-babl
 %defattr(644,root,root,755)
 %{_datadir}/vala/vapi/babl-0.1.vapi
