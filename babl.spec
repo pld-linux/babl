@@ -5,12 +5,12 @@
 Summary:	Library for pixel-format agnosticism
 Summary(pl.UTF-8):	Biblioteka niezależności od formatu piksela
 Name:		babl
-Version:	0.1.62
+Version:	0.1.64
 Release:	1
 License:	LGPL v3+
 Group:		Libraries
 Source0:	https://download.gimp.org/pub/babl/0.1/%{name}-%{version}.tar.bz2
-# Source0-md5:	28fa9d43549378ceebe2871d7721dd46
+# Source0-md5:	3f4a61a9ca5c78129095fed958f2995f
 URL:		http://www.gegl.org/babl/
 BuildRequires:	autoconf >= 2.54
 BuildRequires:	automake >= 1:1.11
@@ -34,6 +34,7 @@ Summary:	Header files for babl library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki babl
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+Obsoletes:	vala-babl < 0.1.12
 
 %description devel
 Header files for babl library.
