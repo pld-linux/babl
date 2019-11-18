@@ -1,20 +1,40 @@
 #
 # Conditional build:
 %bcond_without	static_libs	# static library
+%bcond_with	mmx		# MMX instructions
+%bcond_with	sse		# SSE instructions
+%bcond_with	sse2		# SSE2 instructions in CIE,two-table,ycbcr modules, sse2-* modules
+# sse4.1, avx2, f16c are optional (in separate modules)
+# sse2 is runtime-detected, but whole files are compiled with -msse2, so it's not optional
 #
+%ifarch pentium2 pentium3 pentium4 athlon %{x8664} x32
+%define		with_mmx	1
+%endif
+%ifarch pentium3 pentium4 %{x8664} x32
+%define		with_sse	1
+%endif
+%ifarch pentium4 %{x8664} x32
+%define		with_sse2	1
+%endif
 Summary:	Library for pixel-format agnosticism
 Summary(pl.UTF-8):	Biblioteka niezależności od formatu piksela
 Name:		babl
-Version:	0.1.64
+Version:	0.1.72
 Release:	1
 License:	LGPL v3+
 Group:		Libraries
-Source0:	https://download.gimp.org/pub/babl/0.1/%{name}-%{version}.tar.bz2
-# Source0-md5:	3f4a61a9ca5c78129095fed958f2995f
+Source0:	https://download.gimp.org/pub/babl/0.1/%{name}-%{version}.tar.xz
+# Source0-md5:	4f2c317328d89242e552fcb5ef66a844
+Patch0:		%{name}-modules.patch
 URL:		http://www.gegl.org/babl/
-BuildRequires:	autoconf >= 2.54
-BuildRequires:	automake >= 1:1.11
-BuildRequires:	libtool >= 2:2.2
+BuildRequires:	meson >= 0.50.0
+BuildRequires:	ninja >= 1.5
+BuildRequires:	rpmbuild(macros) >= 1.736
+BuildRequires:	tar >= 1:1.22
+BuildRequires:	xz
+%{?with_mmx:Requires:	cpuinfo(mmx)}
+%{?with_sse:Requires:	cpuinfo(sse)}
+%{?with_sse:Requires:	cpuinfo(sse2)}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -69,29 +89,20 @@ API języka Vala dla biblioteki babl.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
-%{__libtoolize}
-%{__aclocal} -I m4
-%{__autoconf}
-%{__autoheader}
-%{__automake}
-%configure \
-	--disable-silent-rules \
-	%{?with_static_libs:--enable-static}
-%{__make}
+%meson build \
+	%{!?with_mmx:-Denable-mmx=false} \
+	%{!?with_sse:-Denable-sse=false} \
+	%{!?with_sse2:-Denable-sse2=false}
+
+%ninja_build -C build
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT
-
-# dlopened modules
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/babl-0.1/*.la
-%if %{with static_libs}
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/babl-0.1/*.a
-%endif
+%ninja_install -C build
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -101,9 +112,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS NEWS README TODO
+%doc AUTHORS MAINTAINERS NEWS TODO
 %attr(755,root,root) %{_libdir}/libbabl-0.1.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libbabl-0.1.so.0
+%{_libdir}/girepository-1.0/Babl-0.1.typelib
 %dir %{_libdir}/babl-0.1
 %attr(755,root,root) %{_libdir}/babl-0.1/*.so
 
@@ -111,8 +123,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc docs/{*.html,*.css}
 %attr(755,root,root) %{_libdir}/libbabl-0.1.so
-%{_libdir}/libbabl-0.1.la
 %{_includedir}/babl-0.1
+%{_datadir}/gir-1.0/Babl-0.1.gir
 %{_pkgconfigdir}/babl.pc
 
 %if %{with static_libs}

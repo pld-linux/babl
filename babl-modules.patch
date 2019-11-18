@@ -1,0 +1,11 @@
+--- babl-0.1.72/extensions/meson.build.orig	2019-08-22 22:12:08.000000000 +0200
++++ babl-0.1.72/extensions/meson.build	2019-11-18 21:12:13.765433307 +0100
+@@ -52,7 +52,7 @@
+ ]
+ 
+ foreach ext : extensions
+-  library(
++  shared_library(
+     ext[0],
+     ext[0] + '.c',
+     c_args: ext[1],
