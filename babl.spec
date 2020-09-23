@@ -19,22 +19,27 @@
 Summary:	Library for pixel-format agnosticism
 Summary(pl.UTF-8):	Biblioteka niezależności od formatu piksela
 Name:		babl
-Version:	0.1.74
+Version:	0.1.80
 Release:	1
 License:	LGPL v3+
 Group:		Libraries
 Source0:	https://download.gimp.org/pub/babl/0.1/%{name}-%{version}.tar.xz
-# Source0-md5:	d032853f2678bc95054c39d4f02045c1
+# Source0-md5:	9df7a0ce3f3ef16a067b3d0c9d180124
 Patch0:		%{name}-modules.patch
 URL:		http://www.gegl.org/babl/
-BuildRequires:	meson >= 0.50.0
+BuildRequires:	gobject-introspection-devel >= 1.32.0
+BuildRequires:	lcms2-devel >= 2.8
+BuildRequires:	meson >= 0.54.0
 BuildRequires:	ninja >= 1.5
+BuildRequires:	python3 >= 1:3
 BuildRequires:	rpmbuild(macros) >= 1.736
 BuildRequires:	tar >= 1:1.22
+BuildRequires:	vala >= 2:0.20.0
 BuildRequires:	xz
 %{?with_mmx:Requires:	cpuinfo(mmx)}
 %{?with_sse:Requires:	cpuinfo(sse)}
 %{?with_sse:Requires:	cpuinfo(sse2)}
+Requires:	lcms2 >= 2.8
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -54,7 +59,7 @@ Summary:	Header files for babl library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki babl
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Obsoletes:	vala-babl < 0.1.12
+Requires:	lcms2-devel >= 2.8
 
 %description devel
 Header files for babl library.
@@ -79,7 +84,7 @@ Summary:	Vala API for babl library
 Summary(pl.UTF-8):	API języka Vala dla biblioteki babl
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
-Requires:	vala
+Requires:	vala >= 2:0.20.0
 
 %description -n vala-babl
 Vala API for babl library.
@@ -133,8 +138,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libbabl-0.1.a
 %endif
 
-%if 0
 %files -n vala-babl
 %defattr(644,root,root,755)
+%{_datadir}/vala/vapi/babl-0.1.deps
 %{_datadir}/vala/vapi/babl-0.1.vapi
-%endif
