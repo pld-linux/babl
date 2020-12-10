@@ -19,12 +19,12 @@
 Summary:	Library for pixel-format agnosticism
 Summary(pl.UTF-8):	Biblioteka niezależności od formatu piksela
 Name:		babl
-Version:	0.1.80
+Version:	0.1.82
 Release:	1
 License:	LGPL v3+
 Group:		Libraries
 Source0:	https://download.gimp.org/pub/babl/0.1/%{name}-%{version}.tar.xz
-# Source0-md5:	9df7a0ce3f3ef16a067b3d0c9d180124
+# Source0-md5:	48256ceaeb76719bb9975601b1d1667c
 Patch0:		%{name}-modules.patch
 URL:		http://www.gegl.org/babl/
 BuildRequires:	gobject-introspection-devel >= 1.32.0
@@ -32,7 +32,7 @@ BuildRequires:	lcms2-devel >= 2.8
 BuildRequires:	meson >= 0.54.0
 BuildRequires:	ninja >= 1.5
 BuildRequires:	python3 >= 1:3
-BuildRequires:	rpmbuild(macros) >= 1.736
+BuildRequires:	rpmbuild(macros) >= 1.752
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	vala >= 2:0.20.0
 BuildRequires:	xz
@@ -85,6 +85,7 @@ Summary(pl.UTF-8):	API języka Vala dla biblioteki babl
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Requires:	vala >= 2:0.20.0
+%{?noarchpackage}
 
 %description -n vala-babl
 Vala API for babl library.
