@@ -85,7 +85,7 @@ Summary(pl.UTF-8):	API języka Vala dla biblioteki babl
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Requires:	vala >= 2:0.20.0
-%{?noarchpackage}
+BuildArch:	noarch
 
 %description -n vala-babl
 Vala API for babl library.
