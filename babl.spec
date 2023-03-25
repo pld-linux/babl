@@ -19,12 +19,12 @@
 Summary:	Library for pixel-format agnosticism
 Summary(pl.UTF-8):	Biblioteka niezależności od formatu piksela
 Name:		babl
-Version:	0.1.98
+Version:	0.1.102
 Release:	1
 License:	LGPL v3+
 Group:		Libraries
 Source0:	https://download.gimp.org/pub/babl/0.1/%{name}-%{version}.tar.xz
-# Source0-md5:	0fd5f826e2ef14de04d978c203a3fe28
+# Source0-md5:	154c3e2d2560fcb000dc55385bcc727d
 URL:		https://www.gegl.org/babl/
 BuildRequires:	gobject-introspection-devel >= 1.32.0
 BuildRequires:	lcms2-devel >= 2.8
@@ -131,7 +131,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libbabl-0.1.so
 %{_includedir}/babl-0.1
 %{_datadir}/gir-1.0/Babl-0.1.gir
-%{_pkgconfigdir}/babl.pc
+%{_pkgconfigdir}/babl-0.1.pc
 
 %if %{with static_libs}
 %files static
