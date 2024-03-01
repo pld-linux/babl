@@ -1,5 +1,6 @@
 #
 # Conditional build:
+%bcond_without	apidocs		# gi-docgen API documentation
 %bcond_without	static_libs	# static library
 %bcond_with	mmx		# MMX instructions
 %bcond_with	sse		# SSE instructions
@@ -19,12 +20,12 @@
 Summary:	Library for pixel-format agnosticism
 Summary(pl.UTF-8):	Biblioteka niezależności od formatu piksela
 Name:		babl
-Version:	0.1.106
+Version:	0.1.108
 Release:	1
 License:	LGPL v3+
 Group:		Libraries
 Source0:	https://download.gimp.org/pub/babl/0.1/%{name}-%{version}.tar.xz
-# Source0-md5:	f0932832cdc4cf9b09c0f97ff48fea07
+# Source0-md5:	749169721b551882332a64ac17735de6
 URL:		https://www.gegl.org/babl/
 BuildRequires:	gobject-introspection-devel >= 1.32.0
 BuildRequires:	lcms2-devel >= 2.8
@@ -32,7 +33,7 @@ BuildRequires:	meson >= 0.54.0
 BuildRequires:	ninja >= 1.5
 BuildRequires:	python3 >= 1:3
 BuildRequires:	rpm-build >= 4.6
-BuildRequires:	rpmbuild(macros) >= 1.752
+BuildRequires:	rpmbuild(macros) >= 2.029
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	vala >= 2:0.20.0
 BuildRequires:	xz
@@ -93,6 +94,18 @@ Vala API for babl library.
 %description -n vala-babl -l pl.UTF-8
 API języka Vala dla biblioteki babl.
 
+%package apidocs
+Summary:	API documentation for babl library
+Summary(pl.UTF-8):	Dokumentacja API biblioteki babl
+Group:		Documentation
+BuildArch:	noarch
+
+%description apidocs
+API documentation for babl library.
+
+%description apidocs -l pl.UTF-8
+Dokumentacja API biblioteki babl.
+
 %prep
 %setup -q
 
@@ -100,7 +113,8 @@ API języka Vala dla biblioteki babl.
 %meson build \
 	%{!?with_mmx:-Denable-mmx=false} \
 	%{!?with_sse:-Denable-sse=false} \
-	%{!?with_sse2:-Denable-sse2=false}
+	%{!?with_sse2:-Denable-sse2=false} \
+	%{!?with_apidocs:-Dgi-docgen=disabled}
 
 %ninja_build -C build
 
@@ -108,6 +122,11 @@ API języka Vala dla biblioteki babl.
 rm -rf $RPM_BUILD_ROOT
 
 %ninja_install -C build
+
+%if %{with apidocs}
+install -d $RPM_BUILD_ROOT%{_gidocdir}
+%{__mv} $RPM_BUILD_ROOT%{_docdir}/babl-0.1 $RPM_BUILD_ROOT%{_gidocdir}
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -143,3 +162,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_datadir}/vala/vapi/babl-0.1.deps
 %{_datadir}/vala/vapi/babl-0.1.vapi
+
+%if %{with apidocs}
+%files apidocs
+%defattr(644,root,root,755)
+%{_gidocdir}/babl-0.1
+%endif
