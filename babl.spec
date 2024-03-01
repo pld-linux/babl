@@ -29,7 +29,7 @@ Source0:	https://download.gimp.org/pub/babl/0.1/%{name}-%{version}.tar.xz
 URL:		https://www.gegl.org/babl/
 BuildRequires:	gobject-introspection-devel >= 1.32.0
 BuildRequires:	lcms2-devel >= 2.8
-BuildRequires:	meson >= 0.54.0
+BuildRequires:	meson >= 0.55.0
 BuildRequires:	ninja >= 1.5
 BuildRequires:	python3 >= 1:3
 BuildRequires:	rpm-build >= 4.6
