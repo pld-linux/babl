@@ -31,6 +31,7 @@ BuildRequires:	gobject-introspection-devel >= 1.32.0
 BuildRequires:	lcms2-devel >= 2.8
 BuildRequires:	meson >= 0.55.0
 BuildRequires:	ninja >= 1.5
+BuildRequires:	pkgconfig
 BuildRequires:	python3 >= 1:3
 BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpmbuild(macros) >= 2.029
