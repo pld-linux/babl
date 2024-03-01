@@ -111,6 +111,7 @@ Dokumentacja API biblioteki babl.
 
 %build
 %meson build \
+	%{!?with_static_libs:--default-library=shared} \
 	%{!?with_mmx:-Denable-mmx=false} \
 	%{!?with_sse:-Denable-sse=false} \
 	%{!?with_sse2:-Denable-sse2=false} \
