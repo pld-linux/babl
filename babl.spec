@@ -5,8 +5,9 @@
 %bcond_with	mmx		# MMX instructions
 %bcond_with	sse		# SSE instructions
 %bcond_with	sse2		# SSE2 instructions in CIE,two-table,ycbcr modules, sse2-* modules
-# sse4.1, avx2, f16c are optional (in separate modules)
+# -mmmx and -msse are added to global flags
 # sse2 is runtime-detected, but whole files are compiled with -msse2, so it's not optional
+# sse4.1, avx2, f16c are optional (in separate modules)
 #
 %ifarch pentium2 pentium3 pentium4 athlon %{x8664} x32
 %define		with_mmx	1
@@ -20,12 +21,12 @@
 Summary:	Library for pixel-format agnosticism
 Summary(pl.UTF-8):	Biblioteka niezależności od formatu piksela
 Name:		babl
-Version:	0.1.110
+Version:	0.1.112
 Release:	1
 License:	LGPL v3+
 Group:		Libraries
 Source0:	https://download.gimp.org/pub/babl/0.1/%{name}-%{version}.tar.xz
-# Source0-md5:	647708858d0c217579dec462b5f202a2
+# Source0-md5:	64110f7939ef49137b79c7c9df5ec058
 URL:		https://www.gegl.org/babl/
 BuildRequires:	gobject-introspection-devel >= 1.32.0
 BuildRequires:	lcms2-devel >= 2.8
@@ -34,13 +35,13 @@ BuildRequires:	ninja >= 1.5
 BuildRequires:	pkgconfig
 BuildRequires:	python3 >= 1:3
 BuildRequires:	rpm-build >= 4.6
-BuildRequires:	rpmbuild(macros) >= 2.029
+BuildRequires:	rpmbuild(macros) >= 2.042
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	vala >= 2:0.20.0
 BuildRequires:	xz
 %{?with_mmx:Requires:	cpuinfo(mmx)}
 %{?with_sse:Requires:	cpuinfo(sse)}
-%{?with_sse:Requires:	cpuinfo(sse2)}
+%{?with_sse2:Requires:	cpuinfo(sse2)}
 Requires:	lcms2 >= 2.8
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -111,19 +112,21 @@ Dokumentacja API biblioteki babl.
 %setup -q
 
 %build
-%meson build \
+%meson \
 	%{!?with_static_libs:--default-library=shared} \
+	-Denable-gir=true \
 	%{!?with_mmx:-Denable-mmx=false} \
 	%{!?with_sse:-Denable-sse=false} \
 	%{!?with_sse2:-Denable-sse2=false} \
-	%{!?with_apidocs:-Dgi-docgen=disabled}
+	-Dgi-docgen=%{__enabled_disabled apidocs} \
+	-Dwith-docs=%{__true_false apidocs}
 
-%ninja_build -C build
+%meson_build
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%ninja_install -C build
+%meson_install
 
 %if %{with apidocs}
 install -d $RPM_BUILD_ROOT%{_gidocdir}
