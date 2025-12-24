@@ -21,12 +21,12 @@
 Summary:	Library for pixel-format agnosticism
 Summary(pl.UTF-8):	Biblioteka niezależności od formatu piksela
 Name:		babl
-Version:	0.1.116
+Version:	0.1.118
 Release:	1
 License:	LGPL v3+
 Group:		Libraries
 Source0:	https://download.gimp.org/pub/babl/0.1/%{name}-%{version}.tar.xz
-# Source0-md5:	e82ec92eb2dfea49f0596a6999603f33
+# Source0-md5:	d06b28b1a66a86b59cccd55569c13850
 URL:		https://www.gegl.org/babl/
 BuildRequires:	gobject-introspection-devel >= 1.32.0
 BuildRequires:	lcms2-devel >= 2.8
@@ -143,8 +143,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS MAINTAINERS NEWS TODO
 %attr(755,root,root) %{_bindir}/babl
-%attr(755,root,root) %{_libdir}/libbabl-0.1.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libbabl-0.1.so.0
+%{_libdir}/libbabl-0.1.so.*.*.*
+%ghost %{_libdir}/libbabl-0.1.so.0
 %{_libdir}/girepository-1.0/Babl-0.1.typelib
 %dir %{_libdir}/babl-0.1
 %attr(755,root,root) %{_libdir}/babl-0.1/*.so
@@ -152,7 +152,7 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %doc docs/{*.html,*.css}
-%attr(755,root,root) %{_libdir}/libbabl-0.1.so
+%{_libdir}/libbabl-0.1.so
 %{_includedir}/babl-0.1
 %{_datadir}/gir-1.0/Babl-0.1.gir
 %{_pkgconfigdir}/babl-0.1.pc
